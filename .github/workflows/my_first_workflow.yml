@@ -5,11 +5,30 @@ on:
     branches: [main,develop]
 jobs:
   job_1:
-    name: Job 1
+    name: Build on ARM 
     runs-on: ubuntu-latest
     steps:
-      - name: Step 1
-        run: echo "hello world"
+      #  pobranie repo
+      - name: Checkout
+        uses: actions/checkout@v4.2.0
+    
+      # przejść do folderu Cmake
+      # zbudować konfiguracj 
+      - name: arm-none-eabi-gcc
+        uses: ryanwinter/arm-none-eabi-gcc@master
+        with:
+          release: '10.3-2021.10' # The arm-none-eabi-gcc release to use.
+
+      - name: Get Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master 
+
+      - name: Build 
+        working-directory: hw/STM32G071RB
+        run: |
+          mkdir out
+          cmake -Bout -GNinja
+          cmake --build out
+
 
   job_2:
     name: Job 2
