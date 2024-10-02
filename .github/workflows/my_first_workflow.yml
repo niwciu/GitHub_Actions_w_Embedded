@@ -1,0 +1,28 @@
+name: My First Workflow
+on:
+  workflow_dispatch: 
+  pull_request: 
+    branches: [main,develop]
+jobs:
+  job_1:
+    name: Job 1
+    runs-on: ubuntu-latest
+    steps:
+      - name: Step 1
+        run: echo "hello world"
+
+  job_2:
+    name: Job 2
+    needs: job_1
+    runs-on: windows-latest
+    steps:
+      - name: Step 1
+        run: echo " Job 1 done"
+
+  job_3:
+    name: Job 3
+    runs-on: ubuntu-latest
+    container: niwciu/stm32_dev_container:latest
+    steps:
+      - name: Step 1
+        run: echo "hello wrold from container"
