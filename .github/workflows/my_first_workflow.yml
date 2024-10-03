@@ -5,11 +5,28 @@ on:
     branches: [main,develop]
 jobs:
   job_1:
-    name: Job 1
+    name: Build on ARM 
     runs-on: ubuntu-latest
     steps:
-      - name: Step 1
-        run: echo "hello world"
+      #  pobranie repo
+      - name: Checkout
+        uses: actions/checkout@v4.2.0
+    
+      # przejść do folderu Cmake
+      # zbudować konfiguracj 
+      - name: Get Arm Toolchain
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
+
+      - name: Get Ninja
+        uses: seanmiddleditch/gha-setup-ninja@master 
+
+      - name: Build 
+        working-directory: hw/STM32G071RB
+        run: |
+          mkdir out
+          cmake -Bout -GNinja
+          cmake --build out
+
 
   job_2:
     name: Job 2
@@ -20,9 +37,19 @@ jobs:
         run: echo " Job 1 done"
 
   job_3:
-    name: Job 3
+    name: Build on ARM in container
     runs-on: ubuntu-latest
     container: niwciu/stm32_dev_container:latest
     steps:
-      - name: Step 1
-        run: echo "hello wrold from container"
+      #  pobranie repo
+      - name: Checkout
+        uses: actions/checkout@v4.2.0 
+    
+      # przejść do folderu Cmake
+      # zbudować konfiguracj 
+      - name: Build 
+        working-directory: hw/STM32G071RB
+        run: |
+          mkdir out
+          cmake -Bout -GNinja
+          cmake --build out
