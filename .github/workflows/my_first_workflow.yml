@@ -14,10 +14,8 @@ jobs:
     
       # przejść do folderu Cmake
       # zbudować konfiguracj 
-      - name: arm-none-eabi-gcc
-        uses: ryanwinter/arm-none-eabi-gcc@master
-        with:
-          release: '10.3-2021.10' # The arm-none-eabi-gcc release to use.
+      - name: Get Arm Toolchain
+        uses: carlosperate/arm-none-eabi-gcc-action@v1
 
       - name: Get Ninja
         uses: seanmiddleditch/gha-setup-ninja@master 
