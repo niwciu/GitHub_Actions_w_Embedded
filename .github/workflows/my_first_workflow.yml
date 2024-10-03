@@ -37,9 +37,19 @@ jobs:
         run: echo " Job 1 done"
 
   job_3:
-    name: Job 3
+    name: Build on ARM in container
     runs-on: ubuntu-latest
     container: niwciu/stm32_dev_container:latest
     steps:
-      - name: Step 1
-        run: echo "hello wrold from container"
+      #  pobranie repo
+      - name: Checkout
+        uses: actions/checkout@v4.2.0 
+    
+      # przejść do folderu Cmake
+      # zbudować konfiguracj 
+      - name: Build 
+        working-directory: hw/STM32G071RB
+        run: |
+          mkdir out
+          cmake -Bout -GNinja
+          cmake --build out
